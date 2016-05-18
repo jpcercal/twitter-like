@@ -1,0 +1,17 @@
+/vendor
+/build
+*.lock
+!composer.lock
+composer.phar
+.env
+.log
+.grunt/
+bower_components/
+node_modules/
+storage/logs/
+storage/cache/
+/public/
+!/public/.htaccess
+!/public/favicon.ico
+!/public/index.php
+!/public/robots.txt

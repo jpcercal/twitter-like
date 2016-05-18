@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="App" ng-controller="CoreController" ng-init="baseUrl = '{{ url('page.home') }}'">
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{ "{{ website.title }}" }}</title>
+
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="{{ url('page.home') }}css/twitter-like{% if not app.debug %}.min{% endif %}.css">
+</head>
+<body ng-clock>
+    <toast></toast>
+    {% block content %}{% endblock %}
+    <script type="text/javascript" src="{{ url('page.home') }}js/twitter-like{% if not app.debug %}.min{% endif %}.js"></script>
+</body>
+</html>

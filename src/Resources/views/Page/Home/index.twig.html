@@ -1,0 +1,76 @@
+{% extends "Resources/views/layout.twig.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{{ url('page.home') }}">
+                        # TwitterLike
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <p class="navbar-text source-code">Check the <a href="https://github.com/jpcercal/twitter-like" target="_blank">source code</a> of this project</p>
+                    <a href="http://www.cekurte.com" target="_blank">
+                        <img class="pull-right logo" alt="Cekurte" src="images/brand.png">
+                    </a>
+                </div>
+            </div>
+            <div class="colors row">
+                <div class="col-xs-2 bgcolor-red"></div>
+                <div class="col-xs-2 bgcolor-orange"></div>
+                <div class="col-xs-2 bgcolor-yellow"></div>
+                <div class="col-xs-2 bgcolor-green"></div>
+                <div class="col-xs-2 bgcolor-blue"></div>
+                <div class="col-xs-2 bgcolor-darkblue"></div>
+            </div>
+        </nav>
+    </div>
+    <div class="container" ng-controller="MessageController">
+        <form class="message" name="messageForm" ng-submit="!messageForm.$invalid && message.length <= 140 && submitMessageForm()">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Compose new message</h3>
+                </div>
+                <div class="panel-body">
+                    <textarea name="message" class="form-control" rows="3" placeholder="What's happening?" ng-required="true" ng-model="message" ng-minlength="1"></textarea>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="has-error">
+                                <p ng-show="messageForm.message.$error.required" class="help-block">Message is required.</p>
+                                <p ng-show="messageForm.message.$error.minlength" class="help-block">Message is too short.</p>
+                                <p ng-show="message.length > 140" class="help-block">Message is too long.</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 colors">
+                            <button type="submit" class="btn pull-right" ng-class="{'btn-success': !messageForm.$invalid && message.length <= 140}" ng-disabled="messageForm.$invalid && message.length > 140">
+                                <span class="fa fa-commenting-o" aria-hidden="true"></span> Post message
+                            </button>
+                            <span class="badge pull-right message-length" ng-class="{true: 'bgcolor-red', false: 'bgcolor-green'}[message.length > 140]">{{ '{{ 140 - message.length }}' }}</span> </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="timeline">
+            <p class="help-block" ng-show="messages.length === 0" >Your timeline is empty.</p>
+            <div ng-show="messages.length > 0" >
+                <div class="line text-muted"></div>
+
+                <div class="panel panel-info timeline-message colors" ng-repeat="item in messages">
+                    <div class="panel-heading icon" ng-class="{0: 'bgcolor-red', 1: 'bgcolor-orange', 2: 'bgcolor-yellow', 3: 'bgcolor-green', 4: 'bgcolor-blue', 5: 'bgcolor-darkblue'}[$index % 6]">
+                        <i class="fa fa-comments-o fa-inverse" aria-hidden="true"></i>
+                    </div>
+                    <div class="panel-body">
+                        <strong>#{{ '{{ item.id }}' }}</strong> {{ '{{ item.message }}' }}
+                        <div class="text-muted">
+                            <time>{{ '{{ item.created_at }}' }}</time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{
+  "name": "twitter-like",
+  "version": "0.0.1",
+  "authors": [
+    "João Paulo Cercal <jpcercal@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5",
+    "bootstrap": "~3.3.6",
+    "fontawesome": "~4.6.2",
+    "angular-loading-bar": "~0.8.0",
+    "ngtoast": "~1.5.5"
+  },
+  "resolutions": {
+    "angular": "~1.5"
+  }
+}

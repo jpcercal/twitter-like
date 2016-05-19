@@ -46,8 +46,6 @@ abstract class AbstractController
             throw new \RuntimeException('The TwigServiceProvider is not registered in this application');
         }
 
-        $namespace = explode('\\', get_class($this));
-
         return $app['twig']->render(sprintf('Resources/views/%s', $view), $params);
     }
 }

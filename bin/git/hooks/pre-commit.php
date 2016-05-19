@@ -73,7 +73,6 @@ if ($reporter->hasIssues()) {
         ->red('[x] Please fix the errors above.')
     ;
     exit(1);
-
 } else {
     $climate
         ->out('')

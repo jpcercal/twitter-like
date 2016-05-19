@@ -11,6 +11,7 @@
         "symfony/console": "^2.8",
         "vlucas/phpdotenv": "^2.2",
         "jdesrosiers/silex-cors-provider": "^0.1",
+        "jdesrosiers/silex-jms-serializer-provider": "^0.1",
         "dflydev/doctrine-orm-service-provider": "~1.0",
         "gedmo/doctrine-extensions": "^2.4",
         "saxulum/saxulum-validator-provider": "^1.1",

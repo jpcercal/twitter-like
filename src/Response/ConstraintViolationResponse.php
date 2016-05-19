@@ -2,7 +2,6 @@
 
 namespace Cekurte\TwitterLike\Response;
 
-use Cekurte\Environment\Environment;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationList;
 

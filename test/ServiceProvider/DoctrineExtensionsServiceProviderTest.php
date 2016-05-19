@@ -4,6 +4,7 @@ namespace Cekurte\TwitterLike\Test\ServiceProvider;
 
 use Cekurte\Tdd\ReflectionTestCase;
 use Cekurte\TwitterLike\ServiceProvider\DoctrineExtensionsServiceProvider;
+use Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
@@ -12,12 +13,12 @@ class DoctrineExtensionsServiceProviderTest extends ReflectionTestCase
 {
     public function setUp()
     {
-        putenv('DOCTRINE_EXTENSION_ENABLE_SLUGGABLE=false');
-        putenv('DOCTRINE_EXTENSION_ENABLE_TREE=false');
-        putenv('DOCTRINE_EXTENSION_ENABLE_LOGGABLE=false');
-        putenv('DOCTRINE_EXTENSION_ENABLE_TIMESTAMPABLE=false');
-        putenv('DOCTRINE_EXTENSION_ENABLE_TRANSLATABLE=false');
-        putenv('DOCTRINE_EXTENSION_ENABLE_SORTABLE=false');
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_SLUGGABLE'] = 'false';
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_TREE'] = 'false';
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_LOGGABLE'] = 'false';
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_TIMESTAMPABLE'] = 'false';
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_TRANSLATABLE'] = 'false';
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_SORTABLE'] = 'false';
     }
 
     public function testImplementsControllerProviderInterface()
@@ -44,7 +45,7 @@ class DoctrineExtensionsServiceProviderTest extends ReflectionTestCase
 
     public function testBootEnableGedmoExtensionSluggable()
     {
-        putenv('DOCTRINE_EXTENSION_ENABLE_SLUGGABLE=true');
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_SLUGGABLE'] = 'true';
 
         $provider = new DoctrineExtensionsServiceProvider();
 
@@ -72,7 +73,7 @@ class DoctrineExtensionsServiceProviderTest extends ReflectionTestCase
 
     public function testBootEnableGedmoExtensionTree()
     {
-        putenv('DOCTRINE_EXTENSION_ENABLE_TREE=true');
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_TREE'] = 'true';
 
         $provider = new DoctrineExtensionsServiceProvider();
 
@@ -100,7 +101,7 @@ class DoctrineExtensionsServiceProviderTest extends ReflectionTestCase
 
     public function testBootEnableGedmoExtensionLoggable()
     {
-        putenv('DOCTRINE_EXTENSION_ENABLE_LOGGABLE=true');
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_LOGGABLE'] = 'true';
 
         $provider = new DoctrineExtensionsServiceProvider();
 
@@ -128,7 +129,7 @@ class DoctrineExtensionsServiceProviderTest extends ReflectionTestCase
 
     public function testBootEnableGedmoExtensionTimestampable()
     {
-        putenv('DOCTRINE_EXTENSION_ENABLE_TIMESTAMPABLE=true');
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_TIMESTAMPABLE'] = 'true';
 
         $provider = new DoctrineExtensionsServiceProvider();
 
@@ -160,35 +161,19 @@ class DoctrineExtensionsServiceProviderTest extends ReflectionTestCase
      */
     public function testBootEnableGedmoExtensionTranslatableIsNotRegistered()
     {
-        putenv('DOCTRINE_EXTENSION_ENABLE_TRANSLATABLE=true');
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_TRANSLATABLE'] = 'true';
 
         $provider = new DoctrineExtensionsServiceProvider();
 
         $application = new Application();
-
-        $application['db.event_manager'] = function () {
-            $service = $this
-                ->getMockBuilder('\\Silex\\Provider\\DoctrineServiceProvider')
-                ->disableOriginalConstructor()
-                ->setMethods(['addEventSubscriber'])
-                ->getMock()
-            ;
-
-            $service
-                ->expects($this->once())
-                ->method('addEventSubscriber')
-                ->will($this->returnValue(null))
-            ;
-
-            return $service;
-        };
+        $application->register(new DoctrineServiceProvider());
 
         $provider->boot($application);
     }
 
     public function testBootEnableGedmoExtensionTranslatable()
     {
-        putenv('DOCTRINE_EXTENSION_ENABLE_TRANSLATABLE=true');
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_TRANSLATABLE'] = 'true';
 
         $provider = new DoctrineExtensionsServiceProvider();
 
@@ -217,7 +202,7 @@ class DoctrineExtensionsServiceProviderTest extends ReflectionTestCase
 
     public function testBootEnableGedmoExtensionSortable()
     {
-        putenv('DOCTRINE_EXTENSION_ENABLE_SORTABLE=true');
+        $_ENV['DOCTRINE_EXTENSION_ENABLE_SORTABLE'] = 'true';
 
         $provider = new DoctrineExtensionsServiceProvider();
 
@@ -276,5 +261,40 @@ class DoctrineExtensionsServiceProviderTest extends ReflectionTestCase
         $provider = new DoctrineExtensionsServiceProvider();
 
         $provider->register(new Application());
+    }
+
+    public function testRegister()
+    {
+        $provider = $this
+            ->getMockBuilder('\\Cekurte\\TwitterLike\\ServiceProvider\\DoctrineExtensionsServiceProvider')
+            ->disableOriginalConstructor()
+            ->setMethods(['getMappings', 'getPaths'])
+            ->getMock()
+        ;
+
+        $provider
+            ->expects($this->once())
+            ->method('getMappings')
+            ->will($this->returnValue([
+                [
+                    'namespace' => '\\Cekurte\\TwitterLike\\Entity',
+                    'path' => APP_PATH . DS . 'Entity'
+                ]
+            ]))
+        ;
+
+        $provider
+            ->expects($this->once())
+            ->method('getPaths')
+            ->will($this->returnValue([
+                ['path' => APP_PATH . DS . 'Entity']
+            ]))
+        ;
+
+        $application = new Application();
+        $application->register(new DoctrineServiceProvider());
+        $application->register(new DoctrineOrmServiceProvider(), require CONFIG_PATH . DS . 'doctrine.php');
+
+        $provider->register($application);
     }
 }

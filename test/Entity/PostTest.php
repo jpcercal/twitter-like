@@ -5,7 +5,7 @@ namespace Cekurte\TwitterLike\Entity;
 use Cekurte\Tdd\ReflectionTestCase;
 use Cekurte\TwitterLike\Entity\Post;
 
-class ApiControllerProviderTest extends ReflectionTestCase
+class PostTest extends ReflectionTestCase
 {
     public function testImplementsControllerProviderInterface()
     {

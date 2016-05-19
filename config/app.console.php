@@ -3,13 +3,8 @@
 use Cekurte\Environment\Environment;
 use Cekurte\TwitterLike\ServiceProvider\DoctrineExtensionsServiceProvider;
 use Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\DBAL\Tools\Console\ConsoleRunner;
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Doctrine\ORM\Mapping\Driver\DriverChain;
 use Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand;
 use Doctrine\ORM\Tools\Console\Command\ClearCache\QueryCommand;
 use Doctrine\ORM\Tools\Console\Command\ClearCache\ResultCommand;
@@ -28,11 +23,10 @@ use Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand;
 use Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand;
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 use Doctrine\ORM\Version;
-use Gedmo\DoctrineExtensions;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 
 $app = new SilexApplication();
@@ -51,7 +45,7 @@ $em = $app['orm.em'];
 $helperSet = new HelperSet(array(
     'db'     => new ConnectionHelper($em->getConnection()),
     'em'     => new EntityManagerHelper($em),
-    'dialog' => new DialogHelper(),
+    'dialog' => new QuestionHelper(),
 ));
 
 $cli = new Application('Silex Command Line Interface', Version::VERSION);

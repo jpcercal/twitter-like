@@ -18,7 +18,6 @@ EOT;
 require $autoload;
 
 use League\CLImate\CLImate;
-use StaticReview\Issue\Issue;
 use StaticReview\Reporter\Reporter;
 use StaticReview\Review\Composer\ComposerLintReview;
 use StaticReview\Review\Composer\ComposerSecurityReview;
@@ -74,7 +73,6 @@ if ($reporter->hasIssues()) {
         ->red('[x] Please fix the errors above.')
     ;
     exit(1);
-
 } else {
     $climate
         ->out('')

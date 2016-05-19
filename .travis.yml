@@ -20,6 +20,7 @@ install:
 
 before_script:
   - mkdir -p build/logs
+  - cp .env.example .env
 
 script:
   - phpunit --configuration phpunit.xml.dist

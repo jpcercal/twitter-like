@@ -6,8 +6,8 @@ use Cekurte\Environment\Environment;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Doctrine\ORM\Mapping\Driver\DriverChain;
 use Gedmo\DoctrineExtensions;
 use Gedmo\Loggable\LoggableListener;
 use Gedmo\Sluggable\SluggableListener;
@@ -101,7 +101,7 @@ class DoctrineExtensionsServiceProvider implements ServiceProviderInterface
 
         $reader = new CachedReader(new AnnotationReader(), new ArrayCache());
 
-        $driverChain = new DriverChain();
+        $driverChain = new MappingDriverChain();
 
         DoctrineExtensions::registerMappingIntoDriverChainORM($driverChain, $reader);
 

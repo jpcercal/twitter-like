@@ -5,7 +5,6 @@ use Cekurte\Silex\Manager\Provider\ManagerServiceProvider;
 use Cekurte\TwitterLike\Application;
 use Cekurte\TwitterLike\ControllerProvider\ApiControllerProvider;
 use Cekurte\TwitterLike\ControllerProvider\PageControllerProvider;
-use Cekurte\TwitterLike\EventSubscriber\AppEventSubscriber;
 use Symfony\Component\HttpFoundation\Request;
 
 $app = new Application();
